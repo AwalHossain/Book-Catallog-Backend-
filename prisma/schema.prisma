@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// id: A UUID generated using the @default(uuid()) attribute.
+// name: A string representing the user's name.
+// email: A unique string representing the user's email.
+// password: A string representing the user's password.
+// role: A string with values 'admin' or 'customer'.
+// contactNo: A string for the user's contact number.
+// address: A string for the user's address.
+// profileImg: A string for the user's profile image.
+
+model User {
+  id               String            @id @default(uuid())
+  name             String
+  email            String            @unique
+  password         String
+  role             String
+  contactNo        String
+  address          String
+  profileImg       String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  reviewAndRatings ReviewAndRating[]
+  Order            Order[]
+}
+
+// id: A UUID generated using the @default(uuid()) attribute.
+// title: A string representing the category title.
+
+model Category {
+  id        String   @id @default(uuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  books     Book[]
+}
+
+// id: A UUID generated using the @default(uuid()) attribute.
+// title: A string representing the book's title.
+// author: A string representing the book's author.
+// price: A floating-point number representing the book's price.
+// genre: A string representing the book's genre.
+// publicationDate: A DateTime field representing the book's publication date.
+// categoryId: A UUID representing the category to which the book belongs.
+
+model Book {
+  id              String   @id @default(uuid())
+  title           String
+  author          String
+  price           Float
+  genre           String
+  publicationDate DateTime
+  categoryId      String
+
+  category Category @relation(fields: [categoryId], references: [id])
+
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  reviewAndRatings ReviewAndRating[]
+}
+
+// id: A UUID generated using the @default(uuid()) attribute.
+// review: A string representing the user's review.
+// rating: An integer representing the user's rating.
+// userId: A UUID representing the user who submitted the review.
+// bookId: A UUID representing the book being reviewed.
+
+model ReviewAndRating {
+  id     String @id @default(uuid())
+  review String
+  rating Int
+  userId String
+  bookId String
+
+  user User @relation(fields: [userId], references: [id])
+  book Book @relation(fields: [bookId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// id: A UUID generated using the @default(uuid()) attribute.
+// userId: A UUID representing the user who placed the order.
+// orderedBooks: A JSON field containing an array of objects, each with book ID and quantity.
+// status: A string with values 'pending', 'shipped', or 'delivered', defaulting to 'pending'.
+// createdAt: A DateTime field representing the order creation timestamp.
+
+model Order {
+  id           String   @id @default(uuid())
+  userId       String
+  orderedBooks Json
+  status       Status   @default(pending)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+enum Status {
+  pending
+  shipped
+  delivered
+}
