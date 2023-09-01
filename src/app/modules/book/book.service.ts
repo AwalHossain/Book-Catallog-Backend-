@@ -137,9 +137,14 @@ const getAllBooks = async (
 
 
 const getBookByCategory = async (category: string, options: PaginationOptions): Promise<IgenericResponse< Book[]> | null> => {
-    const { page = 1, limit=10 } = options;
-    const skip = (page -1)* limit;
-    const take = limit;
+    const { page: rawPage = 1, limit: rawLimit = 10, sortBy = 'createdAt', sortOrder = 'desc' }= options;
+
+      // Ensure that page and limit are valid numbers
+  const page = Number(rawPage) || 1;
+  const limit = Number(rawLimit) || 10;
+
+  const skip = (page -1) * limit;
+  const take = limit;
     
     const books = await prisma.book.findMany({
         where: {
@@ -190,6 +195,9 @@ const updateBook = async (id: string, bookDetails: Partial<Book>): Promise<Book 
       id: id,
     },
     data: bookDetails,
+    include:{
+        category: true
+    }
   });
   return book;
 };

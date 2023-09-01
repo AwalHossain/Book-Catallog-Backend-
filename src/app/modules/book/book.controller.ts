@@ -41,7 +41,7 @@ const getBookByCategory = catchAsync(async (req: Request, res: Response) => {
         sortBy: filtersData.sortBy as string,
         sortOrder: filtersData.sortOrder as string,
       };
-    const books = await BookService.getBookByCategory(req.params.category, options);
+    const books = await BookService.getBookByCategory(req.params.categoryId, options);
 
     sendResponse(res, {
         statusCode: 200,
