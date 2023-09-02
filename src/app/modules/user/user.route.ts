@@ -11,6 +11,10 @@ const router = Router();
 
 router.post('/',
 UserController.insertUser);
+
+router.get('/auth/login',
+UserController.loginUser);
+
 router.get('/', 
 auth(ENUM_USER_ROLE.ADMIN),
 UserController.getAllUsers);
