@@ -18,18 +18,18 @@ const createOrder = async (order: Order) => {
 
 
 
-const getAllOrders = async (user:JwtPayload | null): Promise<Order[] | null> => {
+const getAllOrders = async (user: JwtPayload | null): Promise<Order[] | null> => {
 
-    if(user?.role === 'admin') {
+    if (user?.role === 'admin') {
         const orders = await prisma.order.findMany();
         return orders;
-    }else if (user?.role === 'user') {
-       const orders = await prisma.order.findMany({
-              where: {
+    } else if (user?.role === 'user') {
+        const orders = await prisma.order.findMany({
+            where: {
                 userId: user.userId
-              }
-            });
-            return orders;
+            }
+        });
+        return orders;
     }
 
     return null;
@@ -37,24 +37,38 @@ const getAllOrders = async (user:JwtPayload | null): Promise<Order[] | null> => 
 }
 
 
-// const getOrderForUser = async (userId: string): Promise<Order[] | null> => {
-//     console.log(userId,'checking userservid');
-    
-//     const orders = await prisma.order.findMany({
-//         where: {
-//           userId: userId
-//         }
-//     });
+const getOrderByOrderId = async (user: JwtPayload | null, orderId: string): Promise<Order | null | undefined> => {
+    console.log(user?.role);
 
-//     console.log(orders,'checking',userId);
-    
+    if (user?.role === 'admin') {
+        const order = await prisma.order.findUnique({
+            where: {
+                id: orderId
+            }
+        })
 
-//     return orders;
-// }
+        return order;
+    } else if (user?.role === 'user') {
+
+        const order = await prisma.order.findUnique({
+            where: {
+                id: orderId
+            }
+        })
+
+        if (!order || order.userId !== user.userId) {
+            return null;
+        }
+        return order;
+    }
+
+    
+    return undefined;
+}
 
 
 export const OrderService = {
     createOrder,
     getAllOrders,
-    // getOrderForUser
+    getOrderByOrderId
 }
