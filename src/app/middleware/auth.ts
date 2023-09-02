@@ -21,10 +21,10 @@ const auth = (...RequiredRoles: string[]) => async (
 
     (req as any).user = verifiedUser;
 
-    if(!RequiredRoles.length && !RequiredRoles.includes(verifiedUser.role) ){
+    if(RequiredRoles.length && !RequiredRoles.includes(verifiedUser.role) ){
         throw new ApiError(401,'Forbidden' );
     }
-
+    
     next();
 
     }catch(err){
