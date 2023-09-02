@@ -8,7 +8,7 @@ const router = Router();
 
 
 router.get('/', 
-auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.CUSTOMER),
 ProfileController.getUserProfileData
 );
 

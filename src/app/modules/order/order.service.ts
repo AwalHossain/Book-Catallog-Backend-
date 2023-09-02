@@ -23,7 +23,7 @@ const getAllOrders = async (user: JwtPayload | null): Promise<Order[] | null> =>
     if (user?.role === 'admin') {
         const orders = await prisma.order.findMany();
         return orders;
-    } else if (user?.role === 'user') {
+    } else if (user?.role === 'customer') {
         const orders = await prisma.order.findMany({
             where: {
                 userId: user.userId
@@ -48,7 +48,7 @@ const getOrderByOrderId = async (user: JwtPayload | null, orderId: string): Prom
         })
 
         return order;
-    } else if (user?.role === 'user') {
+    } else if (user?.role === 'customer') {
 
         const order = await prisma.order.findUnique({
             where: {
