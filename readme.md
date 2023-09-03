@@ -4,7 +4,12 @@ This is a RESTful API for a bookstore. It allows users to sign up, create and ma
 
 ## Live Link
 
-The API is currently hosted at https://example.com.
+The API is currently hosted at https://book-kend-awalhossain.vercel.app/
+
+**NB:**
+
+- When creating a book, use ISO-8601 DateTime format, otherwise it will not work. Example: `2022-01-01T00:00:00.000Z`
+- Error handling for Prisma has not been implemented yet. If data is not found, it will return a 500 error with the message: "Internal Server Error".
 
 ## Application Routes
 
@@ -40,6 +45,18 @@ The API is currently hosted at https://example.com.
 - `api/v1/books/:id` (GET): Returns the details for a specific book.
 - `api/v1/books/:id` (PATCH): Allows admins to update the details for a specific book.
 - `api/v1/books/:id` (DELETE): Allows admins to delete a specific book.
+
+### pagination & search & sort & filter
+
+- page: The page number for pagination (e.g., ?page=1).
+size: The number of book listings per page (e.g. ?size=10).
+sortBy: The field to sort the cow listings (e.g. ?sortBy=price).
+sortOrder : The order of sorting, either 'asc' or 'desc' (e.g. ?sortOrder=asc).
+minPrice: The minimum price for filtering (e.g. ?minPrice=1000).
+maxPrice: The maximum price for filtering (e.g. ?maxPrice=5000).
+category: Filter using category id (e.g : ?category=f1234573-sfkjsf-45332)
+
+search: The search query string for searching books (e.g., ?searchTerm="Programmig"). (Search Fields should be title,author,genre)
 
 ### Orders
 
