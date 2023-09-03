@@ -77,7 +77,7 @@ const getAllBooks = async (
     //     })
     // }
 
-    const {minPrice, maxPrice, categoryId} = filtersOptions;
+    const {minPrice, maxPrice, category} = filtersOptions;
 
     if(minPrice || maxPrice) {
         AndConditions.push({
@@ -88,14 +88,15 @@ const getAllBooks = async (
         })
     }
 
-    if(categoryId) {
+    if(category) {
         AndConditions.push({
-            categoryId: categoryId
+            categoryId: category
         })
     }
 
 
-
+    console.log(AndConditions,'checking', category);
+    
 
     const where = AndConditions.length ? {
         AND: AndConditions
@@ -180,12 +181,15 @@ const getBookByCategory = async (category: string, options: PaginationOptions): 
 }
 
 
-const getBookById = async (id: string): Promise<Book | null> => {
+const getBookById = async (bookId: string): Promise<Book | null> => {
   const book = await prisma.book.findUnique({
     where: {
-      id: id,
+      id: bookId,
     },
   });
+
+  console.log(book,'book');
+  
   return book;
 };
 
