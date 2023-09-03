@@ -41,7 +41,7 @@ const getAllBooks = async (
 ): Promise<IgenericResponse<Book[]>| null> => {
 
     const { page: rawPage = 1, limit: rawLimit = 10, sortBy = 'createdAt', sortOrder = 'desc' }= options;
-    const {searchTerm, ...filtersOptions} = filtersData;
+    const {search, ...filtersOptions} = filtersData;
 
   // Ensure that page and limit are valid numbers
   const page = Number(rawPage) || 1;
@@ -52,12 +52,12 @@ const getAllBooks = async (
 
     const searchFields = ['title', 'author', 'genre'];
     const filterFields = ['minPrice', 'maxPrice', 'category'];
-    if(searchTerm) {
+    if(search) {
         AndConditions.push({
             OR: searchFields.map((fields) =>{
                 return {
                     [fields]: {
-                        contains: searchTerm,
+                        contains: search,
                         mode: 'insensitive'
                 }
             }
