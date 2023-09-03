@@ -48,15 +48,16 @@ The API is currently hosted at https://book-kend-awalhossain.vercel.app/
 
 ### pagination & search & sort & filter
 
-- page: The page number for pagination (e.g., ?page=1).
-size: The number of book listings per page (e.g. ?size=10).
-sortBy: The field to sort the cow listings (e.g. ?sortBy=price).
-sortOrder : The order of sorting, either 'asc' or 'desc' (e.g. ?sortOrder=asc).
-minPrice: The minimum price for filtering (e.g. ?minPrice=1000).
-maxPrice: The maximum price for filtering (e.g. ?maxPrice=5000).
-category: Filter using category id (e.g : ?category=f1234573-sfkjsf-45332)
+**API Query Parameters:**
 
-search: The search query string for searching books (e.g., ?searchTerm="Programmig"). (Search Fields should be title,author,genre)
+- `page`: The page number for pagination (e.g., `?page=1`).
+- `size`: The number of book listings per page (e.g. `?size=10`).
+- `sortBy`: The field to sort the book listings (e.g. `?sortBy=price`).
+- `sortOrder`: The order of sorting, either 'asc' or 'desc' (e.g. `?sortOrder=asc`).
+- `minPrice`: The minimum price for filtering (e.g. `?minPrice=1000`).
+- `maxPrice`: The maximum price for filtering (e.g. `?maxPrice=5000`).
+- `category`: Filter using category id (e.g : `?category=f1234573-sfkjsf-45332`).
+- `search`: The search query string for searching books (e.g., `?searchTerm="Programming"`). (Search Fields should be title, author, genre)
 
 ### Orders
 
