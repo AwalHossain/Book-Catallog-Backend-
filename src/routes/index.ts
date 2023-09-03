@@ -1,5 +1,6 @@
 
 import express from 'express';
+import { AuthControllerRoute } from '../app/modules/auth/auth.route';
 import { BookControllerRoute } from '../app/modules/book/book.route';
 import { CategoryControllerRoute } from '../app/modules/category/category.route';
 import { OrderControllerRoute } from '../app/modules/order/order.route';
@@ -10,6 +11,10 @@ const router = express.Router();
 
 
 const moduleRoutes = [
+    {
+        path: '/auth',
+        route: AuthControllerRoute
+    },
     {
         path: '/users',
         route: UserControllerRoute

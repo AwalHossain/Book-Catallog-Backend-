@@ -1,31 +1,8 @@
 import { PrismaClient, User } from '@prisma/client';
-import ApiError from '../../../error/ApiError';
 
 const prisma = new PrismaClient();
 
-const insertUser = async (userDetails:User) => {
 
-        const user = await prisma.user.create({
-            data: userDetails
-        })
-        return user;
-
-}
-
-const loginUser = async (userDetails:Partial<User>) => {
-
-        const user = await prisma.user.findUnique({
-            where: {
-                email: userDetails.email
-            }
-
-        })
-
-        if(user?.password !== userDetails.password) {
-            throw new ApiError(400,'Invalid password');
-        }
-        return user;
-    }
 
 const getAllUsers = async (): Promise<User[] | null> => {
 
@@ -68,10 +45,8 @@ const deleteUser = async (id: string):Promise<User | null> => {
 
 
 export const UserService = {
-    insertUser,
     getAllUsers,
     getUserById,
     updateUser,
     deleteUser,
-    loginUser,
 }
